@@ -2,14 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const authenticate = require('./middleware/authenticate');
 require("dotenv").config();
 
 const app = express();
 
+console.log("Secret used for JWT:", process.env.JWT_SECRET);
+
 app.use(cors({
   origin: "http://localhost:3000", // Permitir peticiones solo desde el front-end
   methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type"
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 
 app.use(bodyParser.json());
@@ -23,13 +27,15 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error("❌ Error conectando a MongoDB:", err));
 
 // Importar rutas
-const userRoutes = require("./routes/userRoutes"); // Asumiendo que este archivo maneja registro y login
+const userRoutes = require("./routes/userRoutes"); 
 const videoRoutes = require("./routes/videoRoutes");
+const restrictedUserRoutes = require('./routes/restrictedUserRoutes');
 
 // Usar rutas
 
 app.use("/api/users", userRoutes);
 app.use("/api/videos", videoRoutes);
+app.use('/api/restricted-users', authenticate, restrictedUserRoutes);
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;

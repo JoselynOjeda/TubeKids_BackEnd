@@ -3,10 +3,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); // Import bcrypt to hash passwords
 
 // Función para generar JWT
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET || 'your_secret_key', { expiresIn: '90d' });
+const generateToken = (user) => {
+  const payload = {
+    id: user._id,
+    email: user.email,
+    name: user.name,
+    pin: user.pin
+  };
+  return jwt.sign(payload, "tube_kids", { expiresIn: '90d' });
 };
-
 // Registro de usuario
 exports.signup = async (req, res) => {
   const { email, password, phone, pin, name, surname, country, birthDate } = req.body;
@@ -51,7 +56,7 @@ exports.signup = async (req, res) => {
     });
 
     // Generar token JWT
-    const token = generateToken(newUser._id);
+    const token = generateToken(newUser);
 
     console.log("✅ Usuario registrado con éxito:", email);
 
@@ -91,12 +96,13 @@ exports.login = async (req, res) => {
 
     // Buscar usuario y recuperar contraseña
     const user = await User.findOne({ email }).select('+password');
-    
+
     if (!user) {
       console.log("❌ Usuario no encontrado:", email);
       return res.status(401).json({ message: 'Incorrect email or password' });
     }
 
+    console.log("User object:", user);
     console.log("🟢 Usuario encontrado:", user.email);
     console.log("🔑 Contraseña ingresada:", password);
     console.log("🔒 Contraseña almacenada (hash en la BD):", user.password);
@@ -118,8 +124,7 @@ exports.login = async (req, res) => {
       console.log("✅ Contraseña correcta, generando token...");
 
       // Generar token JWT
-      const token = generateToken(user._id);
-
+      const token = generateToken(user);  // This should be user, not user._id
       console.log("🔐 Token generado:", token);
 
       res.status(200).json({
