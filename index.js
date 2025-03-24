@@ -28,14 +28,16 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Importar rutas
 const userRoutes = require("./routes/userRoutes"); 
-const videoRoutes = require("./routes/videoRoutes");
 const restrictedUserRoutes = require('./routes/restrictedUserRoutes');
+const playlistRoutes = require("./routes/playlistRoutes");
+const videoRoutes = require("./routes/videoRoutes");
 
 // Usar rutas
 
 app.use("/api/users", userRoutes);
-app.use("/api/videos", videoRoutes);
 app.use('/api/restricted-users', authenticate, restrictedUserRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/playlists", playlistRoutes);
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;

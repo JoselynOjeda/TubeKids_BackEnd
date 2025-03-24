@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET_KEY = "tube_kids";  
+const SECRET_KEY = process.env.JWT_SECRET || "tube_kids";  // Usa la variable de entorno o fallback
 
 const authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -12,7 +12,7 @@ const authenticate = (req, res, next) => {
 
     const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {  // Usa la clave secreta estática
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) {
             console.error('Token verification error:', err);
             return res.status(400).send(`Invalid token: ${err.message}`);
