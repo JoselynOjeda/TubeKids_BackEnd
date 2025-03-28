@@ -29,7 +29,7 @@
           "port": "5000",
           "path": [
             "api",
-            "auth",
+            "users",
             "signup"
           ]
         }
@@ -58,7 +58,7 @@
           "port": "5000",
           "path": [
             "api",
-            "auth",
+            "users",
             "login"
           ]
         }
