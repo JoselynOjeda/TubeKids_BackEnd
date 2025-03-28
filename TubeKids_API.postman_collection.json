@@ -21,7 +21,7 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"12345678\",\n  \"phone\": \"1234567890\",\n  \"pin\": \"1234\",\n  \"name\": \"John\",\n  \"surname\": \"Doe\",\n  \"country\": \"CR\",\n  \"birthDate\": \"2000-01-01\"\n}"
         },
         "url": {
-          "raw": "http://localhost:5000/api/auth/signup",
+          "raw": "http://localhost:5000/api/users/signup",
           "protocol": "http",
           "host": [
             "localhost"
@@ -50,7 +50,7 @@
           "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"12345678\"\n}"
         },
         "url": {
-          "raw": "http://localhost:5000/api/auth/login",
+          "raw": "http://localhost:5000/api/users/login",
           "protocol": "http",
           "host": [
             "localhost"
