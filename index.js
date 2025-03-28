@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .catch(err => console.error("❌ Error conectando a MongoDB:", err));
 
 // Importar rutas
+const countryRoutes = require('./routes/countryRoutes');
 const userRoutes = require("./routes/userRoutes"); 
 const restrictedUserRoutes = require('./routes/restrictedUserRoutes');
 const playlistRoutes = require("./routes/playlistRoutes");
@@ -38,6 +39,7 @@ app.use("/api/users", userRoutes);
 app.use('/api/restricted-users', authenticate, restrictedUserRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/playlists", playlistRoutes);
+app.use("/api/countries", countryRoutes);
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;

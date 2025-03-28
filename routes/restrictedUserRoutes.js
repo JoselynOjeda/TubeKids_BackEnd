@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/authenticate');
 const restrictedUserController = require('../controllers/restrictedUserController');
 
-// Obtener todos los perfiles restringidos
-router.get('/', restrictedUserController.getAllRestrictedUsers);
-
-// Añadir un perfil restringido
-router.post('/', restrictedUserController.addRestrictedUser);
-
-// Actualizar un perfil restringido
-router.put('/:id', restrictedUserController.updateRestrictedUser);
-
-// Eliminar un perfil restringido
-router.delete('/:id', restrictedUserController.deleteRestrictedUser);
+router.get('/', auth, restrictedUserController.getAllRestrictedUsers);
+router.post('/', auth, restrictedUserController.addRestrictedUser);
+router.put('/:id', auth, restrictedUserController.updateRestrictedUser);
+router.delete('/:id', auth, restrictedUserController.deleteRestrictedUser);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const restrictedUserSchema = new mongoose.Schema({
   avatar: { type: String, required: true },
   parentUser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // opcional pero útil si luego haces populate()
+    ref: 'User', 
     required: true
   }
 });
